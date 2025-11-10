@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: go-redis-app
+data:
+  redis.conf: |
+    appendonly yes
+    appendfsync everysec
+

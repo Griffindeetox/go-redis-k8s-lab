@@ -1,0 +1,62 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/redis/go-redis/v9"
+	"context"
+)
+
+var ctx = context.Background()
+var rdb *redis.Client
+
+func visitsHandler(w http.ResponseWriter, r *http.Request) {
+	count, err := rdb.Incr(ctx, "visits").Result()
+	if err != nil {
+		http.Error(w, "Redis error", http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, "👋 Visitor Count: %d", count)
+}
+
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	// Check Redis connection
+	_, err := rdb.Ping(ctx).Result()
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		fmt.Fprintf(w, `{"status":"unhealthy","redis":"unreachable"}`)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, `{"status":"ok","redis":"connected"}`)
+}
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "🚀 Hello from Go + Redis!")
+}
+
+func main() {
+	rdb = redis.NewClient(&redis.Options{
+		Addr:     "redis:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	_, err := rdb.Ping(ctx).Result()
+	if err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
+	}
+
+	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/visits", visitsHandler)
+	http.HandleFunc("/healthz", healthHandler)
+
+	port := ":8080"
+	fmt.Println("✅ Server running on", port)
+	log.Fatal(http.ListenAndServe(port, nil))
+}
+

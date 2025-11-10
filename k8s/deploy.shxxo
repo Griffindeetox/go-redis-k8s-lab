@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+microk8s kubectl apply -f namespace.yaml
+microk8s kubectl apply -f redis-configmap.yaml
+microk8s kubectl apply -f redis-storage.yaml
+microk8s kubectl apply -f redis.yaml
+microk8s kubectl apply -f app.yaml
+microk8s kubectl get pods,svc -n go-redis-app
+
+

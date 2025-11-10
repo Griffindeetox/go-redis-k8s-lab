@@ -1,0 +1,34 @@
+# Go binaries
+/app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go workspace
+bin/
+pkg/
+
+# Redis data
+data/
+dump.rdb
+*.aof
+
+# Docker
+*.lock
+.dockerignore
+
+# Kubernetes
+*.log
+
+# Cache
+*.tmp
+*.swp
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
