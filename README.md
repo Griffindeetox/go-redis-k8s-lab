@@ -134,8 +134,5 @@ Contributions are welcome. Typical workflow:
 - Create a branch for your change
 - Open a PR against main in this repository
 
-License
-Add a license of your choice (MIT is common). If you want, I can add an MIT LICENSE file in a follow-up commit.
-
 Contact / Support
 Open an issue on the repository for bugs or feature requests.
