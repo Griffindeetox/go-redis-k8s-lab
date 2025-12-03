@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: go-app
-        image: go-docker-app-app:latest
+        image: deetoxg/go-redis-k8s-app:latest
+        imagePullPolicy:
         ports:
         - containerPort: 8080
         env:
