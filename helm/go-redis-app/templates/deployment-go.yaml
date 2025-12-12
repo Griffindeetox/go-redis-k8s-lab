@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-app
+  labels:
+    app: go-app
+spec:
+  replicas: {{ .Values.goApp.replicaCount }}
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+        - name: go-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          env:
+            - name: REDIS_HOST
+              value: {{ .Values.redis.serviceName | quote }}
+            - name: REDIS_PORT
+              value: "{{ .Values.redis.port }}"
+          readinessProbe:
+            httpGet:
+              path: /visits
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /visits
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+{{- toYaml .Values.goApp.resources | nindent 12 }}
