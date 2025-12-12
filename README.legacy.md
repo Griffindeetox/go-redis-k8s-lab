@@ -1,33 +1,3 @@
-# Go + Redis Kubernetes Lab (MicroK8s + Helm + Ingress)
-
-A beginner-friendly DevOps lab that takes a tiny Go + Redis app from **local code → Docker image → Kubernetes → Helm chart → Ingress hostname**.
-
-## What you’ll learn
-- How Kubernetes Deployments + Services connect an app to Redis
-- How to package the stack as a **Helm chart** (reusable installs)
-- How to add **readiness/liveness probes** for safer rollouts
-- How to expose the app via **Ingress + local hostname** (`go-app.local`)
-
-## Architecture (simple)
-- **Go API** exposes `GET /visits` and stores a counter in Redis
-- **Redis** runs inside the cluster (ClusterIP Service)
-- **Ingress (NGINX)** routes `http://go-app.local/visits` → Go service
-
-## Prerequisites
-On the Ubuntu VM:
-- MicroK8s installed and running
-- Addons enabled:
-  `bash
-  sudo microk8s enable dns ingress helm3
-  `
-
-## Quick start
-1. Build & push the image (or use the pre-built one)
-2. Install the Helm chart
-3. Add `go-app.local` to `/etc/hosts` and browse!
-
-
-
 # 🚀 Go + Redis + Kubernetes Demo Application
 A simple **Go web application** backed by **Redis**, containerized with **Docker**, and deployed on **Kubernetes (MicroK8s)**.  
 This project demonstrates real-world DevOps skills across:
