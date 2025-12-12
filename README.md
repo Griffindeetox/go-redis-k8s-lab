@@ -16,7 +16,8 @@ A beginner-friendly DevOps lab that takes a tiny Go + Redis app from **local cod
 ## Prerequisites
 On the Ubuntu VM:
 - MicroK8s installed and running
-- - Addons enabled:
+- Addons enabled:
+
   ```bash
   sudo microk8s enable dns ingress helm3
 
